@@ -1,0 +1,22 @@
+li {
+    float:left;
+    padding: 10px;
+
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+
+}
+#inner1{
+    float:left;
+}
+#inner2{
+    margin-left: 100px;
+    float:left;
+    clear: left;
+}
+#user_submit{
+    margin-left: 100px;
+}
