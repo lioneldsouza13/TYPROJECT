@@ -3,7 +3,7 @@ const {connection} = require('./../connection/connection');
 //Create a table
 const createTable=(tableName,query)=>{
     const createUserTable = `CREATE TABLE ${tableName} (${query})`;
-    connection.query(createUserTable,(err,res)=>{
+    connection.query(createUserTable,(err,rows,fields)=>{
         if(err) throw err;
         console.log(`${tableName} Table Created`)
     })
