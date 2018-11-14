@@ -67,7 +67,9 @@ connection.connect();
 //     if(error) throw error
 //     console.log(result)
 // })
-
+//
+let tableCreationQuery = "UserId int PRIMARY KEY NOT NULL,User_Name varchar(50) NOT NULL,User_Address varchar(100) NOT NULL,User_City varchar(50) NOT NULL," +
+    "User_Pincode varchar(6) NOT NULL,User_Mobile_No varchar(10) NOT NULL,User_Email varchar(50) NOT NULL,User_DOB Date NOT NULL,Date Date NOT NULL";
 
 
 //Vendor Table

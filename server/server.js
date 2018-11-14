@@ -4,6 +4,9 @@ const path=require('path');
 const {connection} = require('./../connection/connection')
 const publicPath = path.join(__dirname, '../public');
 const{createTable,insertTableValues,updateTable,deleteValues} = require('./../queries/table-creation');
+const axios = require('axios')
+
+
 
 var app = express();
 
@@ -39,9 +42,34 @@ app.post('/insert-table-values',(req,res)=>{
         var tableName = req.body.tableName;
         var query = req.body.query;
         var values = req.body.values;
-
         const insertQuery = `INSERT INTO ${tableName} (${query}) VALUES (${values})`;
-       connection.query(insertQuery).then((result)=>res.send(`DATA INSERTED IN ${tableName} TABLE  `)).catch((e)=>res.send(e.sqlMessage))
+        var url ='http://localhost:3000/search/user'
+
+
+        connection.query(insertQuery).then((result)=> {
+            res.send(`DATA INSERTED IN ${tableName} TABLE `)
+
+            return axios.get(url)
+        }).then((post)=>{
+
+            post.data.map((test)=>{
+                for(var name in test)
+                {    var d = new Date(test[name].User_DOB);
+                    d.setMinutes( d.getMinutes() + 330 );
+                    test[name].User_DOB = d;
+
+                    var d1 = new Date(test[name].Date);
+                    d1.setMinutes( d1.getMinutes() + 330 );
+                    test[name].Date =d1;
+                    // console.log(test)
+                    //res.send(result)
+                }
+              console.log(test)
+            })
+
+        }).catch((e)=>res.status(400).send(e.sqlMessage))
+
+
 
     }
     catch(e)
@@ -103,8 +131,22 @@ app.get('/search/:tableName',(req,res)=>{
     try{
 
         connection.query(`SELECT * FROM ${req.params.tableName}`).then((result)=>{
-            console.log(result);
+                for(var name in result) {
+                    var d = new Date(result[name].User_DOB);
+                    d.setMinutes(d.getMinutes() + 330);
+                    result[name].User_DOB = d;
+
+                    var d1 = new Date(result[name].Date);
+                    d1.setMinutes(d1.getMinutes() + 330);
+                    result[name].Date = d1;
+
+
+                }
+            console.log(result)
             res.send(result)
+
+
+
         }).catch((e)=>res.status(400).send(e.sqlMessage));
 
     }
@@ -121,8 +163,18 @@ app.get('/search/:tableName/:where/:value',(req,res)=>{
 try{
 
     connection.query(`SELECT * FROM ${req.params.tableName} where ${req.params.where}='${req.params.value}'`).then((result)=>{
-        console.log(result)
-        res.send(result)
+
+        for(var name in result)
+        {    var d = new Date(result[name].User_DOB);
+            d.setMinutes( d.getMinutes() + 330 );
+            result[name].User_DOB = d;
+
+            var d1 = new Date(result[name].Date);
+            d1.setMinutes( d1.getMinutes() + 330 );
+            result[name].Date =d1;
+            console.log(result)
+            res.send(result)
+        }
     }).catch((e)=>res.status(400).send(e.sqlMessage));
 
 

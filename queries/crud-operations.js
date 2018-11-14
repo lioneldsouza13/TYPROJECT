@@ -1,8 +1,9 @@
 const {database} = require('./database-creation')
-const {connection} = require('./../connection/connection');
+const {connection,connectionDatabase} = require('./../connection/connection');
 const{createTable,insertTableValues,updateTable,deleteValues} = require('./table-creation');
+const axios = require('axios')
 
-connection.connect( (error,result)=>{
+connectionDatabase.connect( (error,result)=>{
     if(error) throw error;
     console.log('CONNECTION SUCCESSFUL');
 
@@ -14,7 +15,7 @@ let tableCreationQuery = "Item_Id int NOT NULL,QTY int NOT NULL,Price DOUBLE NOT
     "Buyer_Id int NOT NULL,Buyer_Name varchar(50) NOT NULL,Seller_Id int NOT NULL,Seller_Name varchar(50) NOT NULL," +
     "Item_Name varchar(50) NOT NULL, UserId int NOT NULL,Vehicle_Id int,Accessory_Id int,PRIMARY KEY(Item_Id,Buyer_Id,Seller_Id),FOREIGN KEY(UserId) REFERENCES User(UserId)," +
     "FOREIGN KEY(Vehicle_Id) REFERENCES Master_Vehicle(Vehicle_Id),FOREIGN KEY(Accessory_Id) REFERENCES Accessories(Accessory_Id)"
-let tableName ="User";
+let tableName ="test1";
 
 //createTable(tableName,tableCreationQuery)
 
@@ -44,10 +45,16 @@ let deleteValue = "BEAST";
 //     console.log(d)
 // })
 
+ return axios.get('http://localhost:3000/search/user').then((response)=>{
+    // response.data.map((post)=>{
+    //     console.log(post)
+    // })
+    console.log(response.data[0])
+     connectionDatabase.end();
+}).catch((e)=>console.log(e))
 
-connection.query(`SELECT * FROM ${tableName}`,(err,result)=>{
-    if(err) throw err;
-    console.log(result)
-});
+// connectionDatabase.query(`SELECT * FROM ${tableName}`,(err,result)=>{
+//     if(err) throw err;
+//     console.log(result)
+// });
 
-connection.end();
