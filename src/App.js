@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+//import NavigationItems from './components/NavigationItems/NavigationItems';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import UserData from './containers/Forms/UserData/UserData';
+import Feedback from './containers/Forms/Feedback/Feedback';
+import Layout from './containers/Layout/Layout';
+ 
 class App extends Component {
   render() {
+    let routes = (
+      <Switch>
+          <Route path="/" exact component={UserData} />
+          <Route path="/feedback" exact component={Feedback}/>
+      </Switch>
+    );
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div> 
+        Sample GUI 
+        <Layout />
+        
+        {routes}
+
+
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
