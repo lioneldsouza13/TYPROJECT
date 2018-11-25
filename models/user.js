@@ -1,15 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define('user', {
-    user_id:DataTypes.BIGINT,
-    details_id: DataTypes.BIGINT,
-    user_name: DataTypes.STRING
+  const sign_up = sequelize.define('user', {
+    id:DataTypes.BIGINT,
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    phone_number: DataTypes.BIGINT,
+    DOB: DataTypes.DATE,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
   }, {});
-  user.associate = function(models) {
-    user.hasMany(models.rating,{foreignKey: 'user_id'});
-      user.hasMany(models.feedback,{foreignKey: 'user_id'});
-      user.hasMany(models.purchase,{foreignKey: 'user_id'});
-    user.belongsTo(models.personal_details,{foreignKey:'details_id'});
+  sign_up.associate = function(models) {
+    // associations can be defined here
   };
-  return user;
+  return sign_up;
 };

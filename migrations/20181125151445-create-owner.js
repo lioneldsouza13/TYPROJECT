@@ -1,22 +1,33 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('master_vehicle', {
-      vehicle_id: {
+    return queryInterface.createTable('owners', {
+      owner_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.BIGINT
       },
-      vehicle_details: {
-          allowNull: false,
+      name: {
         type: Sequelize.STRING
       },
-      client_id: {
-        type: Sequelize.BIGINT
+      address: {
+        type: Sequelize.STRING
       },
-      vendor_id: {
-        type: Sequelize.BIGINT
+      pincode: {
+        type: Sequelize.DOUBLE
+      },
+      mobile_no: {
+        type: Sequelize.DOUBLE
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      DOB: {
+        type: Sequelize.DATE
+      },
+      documents: {
+        type: Sequelize.BLOB
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +40,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('master_vehicle');
+    return queryInterface.dropTable('owners');
   }
 };

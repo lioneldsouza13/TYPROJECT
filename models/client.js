@@ -1,16 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const client = sequelize.define('client', {
-      client_id: DataTypes.BIGINT,
-    details_id: DataTypes.BIGINT,
-    vehicle_details_id: DataTypes.BIGINT,
-    client_name: DataTypes.STRING,
-    vehicle_name: DataTypes.STRING
+    client_id:DataTypes.BIGINT,
+    name: DataTypes.STRING,
+    address: DataTypes.STRING,
+    city: DataTypes.STRING,
+    pincode: DataTypes.DOUBLE,
+    mobile_no: DataTypes.DOUBLE,
+    email: DataTypes.STRING,
+    DOB: DataTypes.DATE,
+    documents: DataTypes.BLOB
   }, {});
   client.associate = function(models) {
-    client.hasMany(models.master_vehicle,{foreignKey:'client_id'});
-    client.belongsTo(models.personal_details,{foreignKey: 'details_id'})
-      client.belongsTo(models.vehicle_details,{foreignKey: 'vehicle_details_id'})
+    // associations can be defined here
   };
   return client;
 };

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       accessory_use: DataTypes.STRING
   }, {});
   accessory.associate = function(models) {
-   accessory.hasMany(models.purchase,{foreignKey:'accessory_id'})
+  // accessory.hasMany(models.purchase,{foreignKey:'accessory_id'})
   };
   return accessory;
 };

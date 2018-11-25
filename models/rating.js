@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     rating_number: DataTypes.BIGINT
   }, {});
   rating.associate = function(models) {
-  rating.belongsTo(models.master_vehicle,{foreignKey:'vehicle_id'});
-  rating.belongsTo(models.user,{foreignKey:'user_id'})
+  // rating.belongsTo(models.master_vehicle,{foreignKey:'vehicle_id'});
+  // rating.belongsTo(models.user,{foreignKey:'user_id'})
   };
   return rating;
 };

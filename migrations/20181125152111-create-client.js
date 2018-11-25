@@ -6,23 +6,31 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
-      details_id: {
-        type: Sequelize.BIGINT,
-          allowNull: false,
+      name: {
+        type: Sequelize.STRING
       },
-      vehicle_details_id: {
-        type: Sequelize.BIGINT,
-          allowNull: false,
+      address: {
+        type: Sequelize.STRING
       },
-      client_name: {
-        type: Sequelize.STRING,
-          allowNull: false,
+      city: {
+        type: Sequelize.STRING
       },
-      vehicle_name: {
-        type: Sequelize.STRING,
-          allowNull: false,
+      pincode: {
+        type: Sequelize.DOUBLE
+      },
+      mobile_no: {
+        type: Sequelize.DOUBLE
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      DOB: {
+        type: Sequelize.DATE
+      },
+      documents: {
+        type: Sequelize.BLOB
       },
       createdAt: {
         allowNull: false,

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     feedback_comment: DataTypes.STRING
   }, {});
   feedback.associate = function(models) {
-    feedback.belongsTo(models.master_vehicle,{foreignKey:'vehicle_id'})
+    // feedback.belongsTo(models.master_vehicle,{foreignKey:'vehicle_id'})
       feedback.belongsTo(models.user,{foreignKey:'user_id'})
   };
   return feedback;
