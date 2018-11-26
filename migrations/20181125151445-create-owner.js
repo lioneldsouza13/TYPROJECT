@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
+        vehicle_id:{
+            type:Sequelize.BIGINT
+        },
       name: {
         type: Sequelize.STRING
       },
