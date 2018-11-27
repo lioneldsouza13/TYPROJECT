@@ -3,14 +3,20 @@ module.exports = (sequelize, DataTypes) => {
   const vehicle = sequelize.define('vehicle', {
       vehicle_id:DataTypes.BIGINT,
       owner_id: DataTypes.BIGINT,
-      name: DataTypes.STRING,
+      vehicle_type:DataTypes.STRING,
+      brand: DataTypes.STRING,
+      model:DataTypes.STRING,
+      fuel_type:DataTypes.STRING,
       year: DataTypes.DATE,
-      type: DataTypes.STRING,
+      registration_state: DataTypes.STRING,
+      km_driven:DataTypes.STRING,
       number_plate: DataTypes.STRING,
       price_per_day: DataTypes.BIGINT,
+      description:DataTypes.STRING,
       image: DataTypes.BLOB,
       documents: DataTypes.BLOB,
-      price: DataTypes.BIGINT
+      price: DataTypes.BIGINT,
+      status:DataTypes.STRING
   }, {});
   vehicle.associate = function(models) {
     // associations can be defined here

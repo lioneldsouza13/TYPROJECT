@@ -11,13 +11,25 @@ module.exports = {
       owner_id: {
         type: Sequelize.BIGINT
       },
-      name: {
+      vehicle_type: {
         type: Sequelize.STRING
       },
+        brand: {
+            type: Sequelize.STRING
+        },
+        model: {
+            type: Sequelize.STRING
+        },
+        fuel_type: {
+            type: Sequelize.STRING
+        },
       year: {
         type: Sequelize.DATE
       },
-      type: {
+        registration_state: {
+            type: Sequelize.STRING
+        },
+      km_driven: {
         type: Sequelize.STRING
       },
       number_plate: {
@@ -35,6 +47,9 @@ module.exports = {
       price: {
         type: Sequelize.BIGINT
       },
+        status:{
+          type:Sequelize.STRING
+        },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
