@@ -32,6 +32,10 @@ app.post('/fetch-registration-state',(req,res)=>{
     var registration_state=["Andhra Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Karnataka"]
     res.send(registration_state)
 })
+app.post('/fetch-km_driven',(req,res)=>{
+    var km_driven=["0-10000","10000-20000","20000-30000","30000-40000","40000-50000","50000-60000","70000-80000","80000-900000","90000-100000"]
+    res.send(km_driven)
+})
 
 app.post('fetch-twoWheeler-brand',(req,res)=>{
     var brand=["Aprilia","Bajaj","Benelli","Hero","Honda","KTM","Others"]
