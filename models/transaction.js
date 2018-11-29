@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const transaction = sequelize.define('transaction', {
-    id:DataTypes.BIGINT,
+    transaction_id:DataTypes.BIGINT,
     client_id: DataTypes.BIGINT,
     vehicle_id: DataTypes.BIGINT,
     date: DataTypes.DATE,
