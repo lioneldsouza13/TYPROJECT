@@ -2,14 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path')
 const app =express();
-const {sequelize}= require("sequelize")
-const axios = require('axios')
+const cors = require('cors')
 // const user = require('./models').user
 const twoWheeler = require('./models').twoWheeler
 const fourWheeler = require('./models').fourWheeler
 
 app.use(bodyParser.json())
-
+app.use(cors());
 app.post('/fetch-vehicle-type',(req,res)=>{
     var vehicle_type=["Two-Wheelers","Four-Wheelers"];
     res.status(200).send(vehicle_type)
