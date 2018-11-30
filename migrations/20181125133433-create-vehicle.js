@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.BIGINT
       },
       owner_id: {
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
       },
       vehicle_type: {
         type: Sequelize.STRING
@@ -24,7 +24,7 @@ module.exports = {
             type: Sequelize.STRING
         },
       year: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
         registration_state: {
             type: Sequelize.STRING

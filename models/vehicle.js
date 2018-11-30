@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       brand: DataTypes.STRING,
       model:DataTypes.STRING,
       fuel_type:DataTypes.STRING,
-      year: DataTypes.DATE,
+      year: DataTypes.STRING,
       registration_state: DataTypes.STRING,
       km_driven:DataTypes.STRING,
       number_plate: DataTypes.STRING,
