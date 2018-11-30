@@ -3,6 +3,7 @@ import Input from '../../../components/UI/Input/Input'
 import classes from './UserData.module.css';
 import {updateObject} from '../../../../src/shared/utility';
 import axios from 'axios';
+import Button from '../../../components/UI/FormComponents/Button';
 
 class UserData extends Component {
     state = {
@@ -83,7 +84,8 @@ class UserData extends Component {
                 },
                 value: ''
             },
-        }
+        },
+        displayData: []
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -132,28 +134,18 @@ class UserData extends Component {
         }
         console.log(user);
 
-        axios.post('http://localhost:3001/insert-table-values', {
-            tableName: 'User',
-            values: user
-        })
-        .then(res => {
-            console.log(res);
-            console.log(res.data);
-
+        axios.post('http://localhost:3001/insert-table-values', {tableName:'User', values: user })
+        .then((post)=>{
+            alert('Data Sent');
+            console.log('Res',post);
         }).catch(e => {
             console.log(e);
+            alert('Some Error...');
         })
     }
 
-    displayHandler = () => {
-        axios.get('http://localhost:3001/fetch-values').then(result => {
-            console.log(result);
-        });
-    };
-
-
     render () {
-        const formElementsArray = [];
+       const formElementsArray = [];
         for(let key in this.state.userForm){
             formElementsArray.push({
                 id: key,
@@ -161,7 +153,7 @@ class UserData extends Component {
             });
         }
         let form = (
-            <form onSubmit={this.submitHandler}>
+            <form  >
                 {formElementsArray.map(formElement => (
                     <Input 
                     key={formElement.id}
@@ -173,20 +165,30 @@ class UserData extends Component {
                     changed={(event) => this.inputChangedHandler(event, formElement.id)}
                     />
                 ))}
-                <button type="submit">Submit</button>
+                <Button
+                        action={this.submitHandler}
+                        type={"btn btn-primary"}
+                        title={"Sign In"}
+                        style={buttonStyle}
+                        />
             </form>
         );
     
         return (
             <div className={classes.UserData}>
-                <h3>Enter User Data </h3>
-                {form}
-                <button onClick={this.displayHandler}>Display</button>
+            <h2 style={{padding:'10px', textAlign:'center'}}>Sign In</h2>    
+            {form}
+                
             </div>
         );
 
     };
     
 }
+const buttonStyle = {
+    margin: "10px 10px 10px 10px",
+
+}
+
 
 export default UserData;

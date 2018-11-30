@@ -1,3 +1,4 @@
+
 .Input {
     width: 100%;
     padding: 10px;
@@ -5,9 +6,9 @@
 }
 
 .Label {
-    
     display: block;
     margin: 0px;
+    font-family: Helvetica;
 }
 
 .InputElement {
@@ -22,17 +23,17 @@
 }
 
 .InputElement:focus {
-    outline: none;
-    background-color: #ccc;
-
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
 }
 
 .Invalid {
-    border: 1px solid red;
-    background-color: rgb(243, 179, 172);
+    border: 1px solid rgb(241, 130, 130);
+    border-radius: 2%;
 }
 
 .ValidationError {
     color: red;
-    margin: 5px 0;
+    margin: 2px 0;
 }
+

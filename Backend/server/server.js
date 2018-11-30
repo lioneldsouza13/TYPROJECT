@@ -23,7 +23,7 @@ app.use(cors())
 //Inserting Data into Table
 app.post('/insert-table-values',(req,res,next)=>{
     console.log('Route Reached');
-
+        var tableName = req.body.tableName
 
     var user = req.body.values
     

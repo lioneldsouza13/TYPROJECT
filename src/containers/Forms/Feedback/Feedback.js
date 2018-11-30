@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import Input from '../../../components/UI/Input/Input';
 import axios from 'axios';
 import { updateObject } from '../../../shared/utility';
-
+import classes from './Feedback.module.css';
 
 class Feedback extends Component {
     state = {
@@ -97,7 +97,7 @@ axios.post('localhost:4000/insert-table-values', {body}
     
     
         return (
-            <div>
+            <div className={classes.Feedback}>
                 <h4>Enter Feedback Data </h4>
                 {form}
             </div>
