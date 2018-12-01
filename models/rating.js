@@ -1,7 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const rating = sequelize.define('rating', {
-    rating_id:DataTypes.BIGINT,
+    rating_id:{type:DataTypes.BIGINT,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
     user_id: DataTypes.BIGINT,
     vehicle_id: DataTypes.BIGINT,
     vehicle_name: DataTypes.STRING,

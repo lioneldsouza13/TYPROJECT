@@ -1,7 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const feedback = sequelize.define('feedback', {
-    feedback_id:DataTypes.BIGINT,
+    feedback_id:{type:DataTypes.BIGINT,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
     vehicle_id: DataTypes.BIGINT,
     vehicle_name: DataTypes.STRING,
     user_id: DataTypes.BIGINT,

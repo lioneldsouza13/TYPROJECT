@@ -1,7 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const owner = sequelize.define('owner', {
-      owner_id:DataTypes.BIGINT,
+      owner_id:{type:DataTypes.BIGINT,
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true
+      },
       vehicle_id:DataTypes.BIGINT,
       name: DataTypes.STRING,
       address: DataTypes.STRING,

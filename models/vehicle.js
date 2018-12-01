@@ -1,8 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const vehicle = sequelize.define('vehicle', {
-      vehicle_id:DataTypes.BIGINT,
-      owner_id: DataTypes.BIGINT,
+      vehicle_id:{
+          type:DataTypes.BIGINT,
+          autoIncrement: true,
+      primaryKey:true
+          },
       vehicle_type:DataTypes.STRING,
       brand: DataTypes.STRING,
       model:DataTypes.STRING,
@@ -17,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       documents: DataTypes.BLOB,
       price: DataTypes.BIGINT,
       status:DataTypes.STRING
-  }, {});
+  }, {freezeTableName:true});
   vehicle.associate = function(models) {
     // associations can be defined here
   };

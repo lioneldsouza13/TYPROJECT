@@ -36,12 +36,12 @@ app.get('/fetch-km_driven',(req,res)=>{
 })
 
 app.get('fetch-twoWheeler-brand',(req,res)=>{
-    var brand=["Aprilia","Bajaj","Benelli","Hero","Honda","KTM","Others"]
+    var brand=["Aprilia","Bajaj","Benelli","Hero","Honda ","KTM","Others"]
     res.status(200).send(brand)
 })
 
 app.get('fetch-fourWheeler-brand',(req,res)=>{
-    var brand =["Audi","BMW","Honda","Mercedes-Benz","Maruti Suzuki","Others"]
+    var brand =["Audi","BMW","Honda","Mercedes-Benz","Maruti Suzuki","Toyota","Others"]
     res.status(200).send(brand)
 })
 
@@ -90,6 +90,36 @@ app.post('/store-vehicle-details',(req,res)=>{
 
 })
 
+//------for postman testing-------------
+app.post('/store-vehicle-detail',(req,res)=>{
+    var vehicles = req.body
+    vehicle.create({
+        vehicle_type:vehicles.type,
+        brand:vehicles.brand,
+        model:vehicles.model,
+        fuel_type:vehicles.fuel,
+        year:vehicles.year,
+        registration_state:vehicles.registration_state,
+        km_driven:vehicles.km_driven,
+        number_plate:vehicles.number_plate,
+        price:vehicles.price,
+        image:vehicles.image,
+        documents:vehicle.documents
+    }).then((result)=>{
+        res.send('Data Inserted')
+    }).catch(e=>console.log(e))
+
+
+
+})
+
+//------------------------
+
+
+
+
+
+
 app.get('/fetch-twoWheeler-details',(req,res)=>{
    var vehicle_details=[]
     vehicle.findAll({attributes:['vehicle_id','vehicle_type','brand','model','fuel_type','year','registration_state','km_driven','number_plate','price_per_day','image','documents','price','status'],where:{vehicle_type:'Two-Wheelers'}}).then((result)=>{
@@ -113,5 +143,18 @@ app.get('/fetch-fourWheeler-details',(req,res)=>{
     })
 })
 
+app.get('/fetch-allVehicles-details',(req,res)=>{
+    var vehicle_details=[]
+    vehicle.findAll({attributes:['vehicle_id','vehicle_type','brand','model','fuel_type','year','registration_state','km_driven','number_plate','price_per_day','image','documents','price','status']}).then((result)=>{
+        for(var i=0;i<result.length;i++)
+        {
+            vehicle_details.push(result[i])
+        }
 
-app.listen(5000,()=> console.log('Listening on port 5000'));
+        res.send(vehicle_details)
+    })
+})
+
+
+
+app.listen(3001,()=> console.log('Listening on port 3001'));
