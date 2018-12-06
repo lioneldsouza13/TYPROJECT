@@ -5,7 +5,6 @@ import {updateObject} from '../../../../src/shared/utility';
 import axios from 'axios';
 import Button from '../../../components/UI/FormComponents/Button';
 //import { NavLink } from 'react-router-dom';
-import { DatePicker} from 'shineout';
 
 class SignUp extends Component {
     state = {
@@ -77,9 +76,18 @@ class SignUp extends Component {
 }
 
 inputChangedHandler = (event, inputIdentifier) => {
-    const updatedFormElement = updateObject(this.state.signUpForm[inputIdentifier], {
+    let updatedFormElement;
+    
+    if(inputIdentifier === 'dob'){
+        updatedFormElement = updateObject(this.state.signUpForm[inputIdentifier], {
+            value: event
+        })
+    }
+    else{
+     updatedFormElement = updateObject(this.state.signUpForm[inputIdentifier], {
         value: event.target.value
     });
+    }
 
     const updatedUserForm = updateObject(this.state.signUpForm, {
         [inputIdentifier]: updatedFormElement
@@ -197,7 +205,7 @@ handleClearForm = (e) => {
             <div className={classes.SignUpForm}>
                 <h2 style={{padding:'10px', textAlign:'center'}}>Sign Up</h2>    
                 {form}
-            </div>
+           </div>
         )
     }
 }

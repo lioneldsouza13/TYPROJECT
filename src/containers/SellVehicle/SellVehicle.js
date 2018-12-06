@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
 import classes from './SellVehicle.module.css';
 import { Form } from 'shineout';
-import { updateSelect, updateObject } from '../../shared/utility';
 import Select from '@material-ui/core/Select';
-import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 
@@ -13,6 +10,7 @@ import axios from 'axios';
 class SellVehicle extends Component {
     state = {
         formdata: {
+            
             type: '',
             brand: '',
             model: '',
@@ -37,31 +35,32 @@ class SellVehicle extends Component {
         imagePrev: '',
         tempBrand: '',
         tempModel: '',
-        tempType: ''
+        tempType: '',
+        sample: ''
     }
 
-    componentDidMount () {
-        axios.get('http://localhost:3001/fetch-vehicle-type').then(result => {
-            console.log(result.data);
-            this.setState({types: result.data})
-        });
-
+    details = () => {
         axios.get('http://localhost:3001/fetch-year').then(result => {
-            console.log(result.data);
             this.setState({year: result.data})
         });
 
         
         axios.get('http://localhost:3001/fetch-registration-state').then(result => {
-            console.log(result.data);
             this.setState({reg_state: result.data})
         });
 
         axios.get('http://localhost:3001/fetch-km_driven').then(result => {
-            console.log(result.data);
             this.setState({km_driven: result.data})
         });
 
+    }
+
+    componentDidMount () {
+        axios.get('http://localhost:3001/fetch-vehicle-type').then(result => {
+            this.setState({types: result.data})
+        });
+
+        this.details();
         
     }
 
@@ -70,11 +69,24 @@ class SellVehicle extends Component {
            formdata: {
                ...this.state.formdata,
                type: e.target.value,
-               
+               km_driven: '',
+               registration_state: '',
+               fuel: '',
+               year: '',
+               image: '',
+               model: '',
+               brand: ''
            },
            brands: [],
            models: [],
-           tempType: e.target.value
+           year: [],
+           reg_state: [],
+           km_driven: [],
+           tempType: e.target.value,
+           file: '',
+           imagePrev: '',
+           tempBrand: '',
+           tempModel: ''
        })
 
        if(e.target.value === 'Two-Wheelers'){
@@ -85,6 +97,8 @@ class SellVehicle extends Component {
            axios.get('http://localhost:3001/fetch-twoWheeler-fuel').then(result =>{
                 this.setState({fuels: result.data})
            });
+
+           this.details();
         }
         else {
             axios.get('http://localhost:3001/fetch-fourWheeler-brand').then(result => {
@@ -93,6 +107,8 @@ class SellVehicle extends Component {
            axios.get('http://localhost:3001/fetch-fourWheeler-fuel').then(result =>{
             this.setState({fuels: result.data})
        });
+
+            this.details();
         }
  }
 
@@ -101,7 +117,11 @@ class SellVehicle extends Component {
         e.preventDefault();
         if(e.target.value === 'Others'){
             this.setState({
-                tempBrand: e.target.value
+                tempBrand: e.target.value,
+                formdata: {
+                    ...this.state.formdata,
+                    brand: ''
+                }
             });
         }
         
@@ -118,7 +138,6 @@ class SellVehicle extends Component {
              axios.post('http://localhost:3001/fetch-fourWheeler-model', {brand: e.target.value})
              .then((result) => {
                  this.setState({models: result.data})
-                 console.log(result.data);
              }).catch(e => {
                  console.log(e);
              })
@@ -127,7 +146,6 @@ class SellVehicle extends Component {
             axios.post('http://localhost:3001/fetch-twoWheeler-model', {brand: e.target.value})
             .then((result) => {
                 this.setState({models: result.data})
-                console.log(result.data);
             }).catch(e => {
                 console.log(e);
             })
@@ -136,12 +154,22 @@ class SellVehicle extends Component {
 }
 
     selectChangedHandlerModel = (e) => {
+        if(e.target.value === 'Others'){
+            this.setState({
+                tempModel: e.target.value,
+                formdata: {
+                    ...this.state.formdata,
+                    model: ''
+                }
+            });
+        }
         e.preventDefault();
         this.setState({
             formdata: {
                 ...this.state.formdata,
                 model: e.target.value
-            }
+            },
+            tempModel: e.target.value
         })
     }
 
@@ -209,18 +237,33 @@ class SellVehicle extends Component {
         console.log(this.state.formdata)
         axios.post('http://localhost:3001/store-vehicle-details', {vehicles: this.state.formdata})
         .then((post) => {
-            console.log("Data Sent")
+             alert('Data Sent')
+            console.log("Data Sent", post);
+            this.setState({
+                formdata: {
+                    type: '',
+                    brand: '',
+                    model: '',
+                    registration_state: '',
+                    fuel: '',
+                    image: '',
+                    document: '',
+                    price: ' ',
+                    year: '',
+                    km_driven: '',
+                    number_plate: ' '
+
+                  }
+            }) 
+                
+            
         }).catch(e => {
             console.log(e);
-        })
+            alert('Invalid Data')
+        });
+
+
     }
-
-
-      remove = () => {
-          this.setState({brands: [], types: []});
-          console.log(this.state.brands);
-          console.log(this.state.types);
-      }
 
       handleImageChange = (e) => {
         e.preventDefault();
@@ -228,9 +271,11 @@ class SellVehicle extends Component {
         let reader = new FileReader();
         let file = e.target.files[0];
     
-        reader.onloadend = () => {
+        reader.onload = (e) => {
+            console.log('Img Data',e.target.result);
           this.setState({
             file: file,
+            sample: e.target.result,
             imagePrev: reader.result,
             formdata: {
                 ...this.state.formdata,
@@ -241,18 +286,37 @@ class SellVehicle extends Component {
     
         reader.readAsDataURL(file)
         console.log(file);
-    //    console.log()
+        console.log(this.state.sample);
+        console.log(this.state.imagePrev);
       } 
     
+      inputChangedHandlerBrand = (e) => {
+          e.preventDefault();
+          this.setState({
+            formdata: {
+                ...this.state.formdata,
+                brand: e.target.value
+            }
+          })
+      }
+
+      inputChangedHandlerModel = (e) => {
+        e.preventDefault();
+        this.setState({
+            formdata: {
+                ...this.state.formdata,
+                model: e.target.value
+            }
+        })
+      }
   render () {
     console.log(this.state.formdata);  
     let {imagePrev} = this.state;
     let imagePreview = null;
     if (imagePrev) {
-      imagePreview = (<img className={classes.Image} src={imagePrev} />);
+      imagePreview = (<img alt="" className={classes.Image} src={imagePrev} />);
     }
 
-    console.log(this.state.formdata.brand);
     let alternate = null;
     if(this.state.tempBrand === 'Others') {
         alternate = (<TextField label="Brand" placeholder="Enter your Vehicle Brand" className={classes.other} onChange={this.inputChangedHandlerBrand} />);
@@ -260,14 +324,11 @@ class SellVehicle extends Component {
     
 
     let alternateM = null;
-    if(this.state.formdata.model === 'Others') {
+    if(this.state.tempBrand === 'Others' || this.state.tempModel === 'Others') {
         alternateM = (<TextField label="Model " placeholder="Enter your Vehicle Model" className={classes.other} 
         onChange={this.inputChangedHandlerModel}/>);
     }
     
-
-
-    console.log(this.state.formdata.type);  
     const options1 = this.state.types.map((item,i) =>
         item === '' ? <MenuItem value={item} key={'placeholder'} hidden >Select the Type</MenuItem> : 
         <MenuItem value={item} key={i} >{item}</MenuItem>
@@ -284,33 +345,31 @@ class SellVehicle extends Component {
     );
 
     const options4 = this.state.year.map((item,i) =>
-        item === '' ? <option value={item} key={'placeholder'} hidden >Select the Year</option> : 
-        <option value={item} key={i} >{item}</option>
+        item === '' ? <MenuItem value={item} key={'placeholder'} hidden >Select the Year</MenuItem> : 
+        <MenuItem value={item} key={i} >{item}</MenuItem>
     );
 
     const options5 = this.state.fuels.map((item,i) =>
-        item === '' ? <option value={item} key={'placeholder'} hidden >Select the Fuel Type</option> : 
-        <option value={item} key={i} >{item}</option>
+        item === '' ? <MenuItem value={item} key={'placeholder'} hidden >Select the Fuel Type</MenuItem> : 
+        <MenuItem value={item} key={i} >{item}</MenuItem>
     );
 
     const options6 = this.state.reg_state.map((item,i) =>
-        item === '' ? <option value={item} key={'placeholder'} hidden >Select the state</option> : 
-        <option value={item} key={i} >{item}</option>
+        item === '' ? <MenuItem value={item} key={'placeholder'} hidden >Select the state</MenuItem> : 
+        <MenuItem value={item} key={i} >{item}</MenuItem>
     );
 
-    
     const options7 = this.state.km_driven.map((item,i) =>
-        item === '' ? <option value={item} key={'placeholder'} hidden >Select the KM Driven</option> : 
-        <option value={item} key={i} >{item}</option>
+        item === '' ? <MenuItem value={item} key={'placeholder'} hidden >Select the KM Driven</MenuItem> : 
+        <MenuItem value={item} key={i} >{item}</MenuItem>
     );
 
     return (
-        console.log(this.state.brands),
         
         <div  className={classes.Box} >
             <h2 style={{textAlign:'center', paddingBottom:'15px'}}>Enter your vehicle details</h2>
             <Form className={classes.Sell}>
-                       <span> 
+                       <div className={classes.divs}> 
                       <label htmlFor="type" className={classes.Label}>Vehicle Type:</label>  
                       <Select
                              id="type" 
@@ -321,8 +380,8 @@ class SellVehicle extends Component {
                         >
                         {options1}
                         </Select>
-
-                        <span className={classes.span1}>
+                        </div>
+                        <div className={classes.divs}>
                         <label htmlFor="brand"  style={{marginBottom: '-10px'}}className={classes.Label}>Vehicle Brand:</label>
                         
                         <Select 
@@ -336,9 +395,9 @@ class SellVehicle extends Component {
                         </Select>
                         <p className={classes.or} style={{marginBottom: '0px'}}>Select others if brand not present</p> 
                          {alternate}
-                        </span>
+                        </div>
 
-                        <span className={classes.span1}>
+                        <div className={classes.divs}>
                         <label htmlFor="model"  style={{marginBottom: '-15px'}}className={classes.Label}>Vehicle Model:</label>
                         <Select 
                             id="model"
@@ -351,50 +410,61 @@ class SellVehicle extends Component {
                         </Select>
                         <p className={classes.or} style={{marginBottom: '2px'}}>Select others if model not present</p>
                         {alternateM}
-                        </span>
-                        </span>
+                        </div>
+                        
                         <br />
                         <br />
                         <br />
-                        <span>
+                        
+                        <div className={classes.divs}>    
                         <label htmlFor="year" className={classes.Label}>Vehicle Year:</label>
-                        <select 
+                        <Select 
                             id="year"
                             name="year"
+                            value={this.state.formdata.year}
                             className={classes.select}
                            onChange= {this.selectChangedHandlerYear}
                         >
                         {options4}
-                        </select>
+                        </Select>
+                        </div>
+                        <div className={classes.divs}>
                         <label htmlFor="fuel" className={classes.Label}>Fuel Type:</label>
-                        <select 
+                        <Select 
                             id="fuel"
                             name="fuel"
                             className={classes.select}
+                            value={this.state.formdata.fuel}
                            onChange= {this.selectChangedHandlerFuel}
                         >
                         {options5}
-                        </select>
+                        </Select>
+                        </div>
+                        <div className={classes.divs}>
                         <label htmlFor="reg" className={classes.Label}>Registration State:</label>
-                        <select 
+                        <Select 
                             id="reg"
                             name="reg"
                             className={classes.select}
+                            value={this.state.formdata.registration_state}
                            onChange= {this.selectChangedHandlerReg}
                         >
                         {options6}
-                        </select>
-                        
+                        </Select>
+                        </div>
+                        <div className={classes.divs}>
                         <label htmlFor="km" className={classes.Label}>Km Driven:</label>
-                        <select 
+                        <Select 
                             id="km"
                             name="km"
                             className={classes.select}
+                            value={this.state.formdata.km_driven}
                            onChange= {this.selectChangedHandlerKm}
                         >
                         {options7}
-                        </select>
-                        </span>
+                        </Select>
+                        </div>
+                        
                         <br />
                         <br />
                         <br />
@@ -402,22 +472,22 @@ class SellVehicle extends Component {
                         <span className={classes.Span}>
 
                         <label htmlFor="number" className={classes.Label}> Vehicle Number:</label>
-                        <input className={classes.InputDet} placeholder="Enter your vehicle number" id="number" name="number" onChange={this.selectChangedHandlerName} />
+                        <TextField label="Vehicle Number" className={classes.other} placeholder="Enter your vehicle number" id="number" name="number" onChange={this.selectChangedHandlerName} />
                         
                         <br/>
                         <br />
                         <label htmlFor="image" className={classes.Label}>Vehicle Image:</label>
-                        <input className={classes.InputDet} id="image" type="file" onChange={this.handleImageChange} /> 
+                        <TextField className={classes.other} id="image" type="file" onChange={this.handleImageChange} /> 
                         <br />
                         { imagePreview }
                         <br/>
                         <label htmlFor="document" className={classes.Label}>Vehicle Document:</label>
-                        <input className={classes.InputDet} type="file" accept="application/pdf,application/vnd.ms-excel" id="document" onChange={this.handleDocumentChange} />         
+                        <TextField className={classes.other} type="file" accept="application/pdf,application/vnd.ms-excel" id="document" onChange={this.handleDocumentChange} />         
                         
                         <br />
                         <br />
                         <label htmlFor="price" className={classes.Label}>Price:</label>
-                        <input className={classes.InputDet} placeholder="Enter the price" id="price" name="number" onChange={this.selectChangedHandlerPrice} />
+                        <TextField className={classes.other} placeholder="Enter the price" id="price" name="number" onChange={this.selectChangedHandlerPrice} />
                         <br/><br/>
                         <button  className="btn btn-primary" onClick={this.formSubmit}>
                             Submit
@@ -428,9 +498,6 @@ class SellVehicle extends Component {
 
                         <br />
                         <br /> 
-
-                        
-
             </Form>
         </div>
     );

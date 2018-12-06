@@ -26,6 +26,7 @@
     "react-validation": "^3.0.7",
     "redux": "^4.0.1",
     "redux-form": "^7.4.2",
+    "redux-thunk": "^2.3.0",
     "sequelize": "^4.41.2",
     "shineout": "^1.1.4",
     "yup": "^0.26.6"

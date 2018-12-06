@@ -9,9 +9,23 @@ import Cards from './containers/Cards/Cards';
 import SignUpForm from './containers/Forms/SignUpForm/SignUpForm';
 import SignIn from './containers/Forms/SignIn/SignIn'; 
 import SignInForm from './containers/SignInForm/SignInForm';
-import SellVehicle from './containers/SellVehicle/SellVehicle';
+import SellVehicle from './containers/SellVehicle/SellVehicle'; 
+import Aux from './hoc/Auxilary';
+import Modal from './components/UI/Modal/Modal';
 
 class App extends Component {
+  state = {
+    show: false
+  }
+
+  loginHandler = () => {
+    this.setState({show: true});
+  }
+
+
+  cancel = () => {
+    this.setState({show: false});
+  }
   render() {
     let routes = (
       <Switch>
@@ -23,19 +37,34 @@ class App extends Component {
           <Route path="/sell" exact component={SellVehicle} />
       </Switch>
     );
+
+    let log = null;
+
+    log = <SignIn />
+
     return (
-      <div style={{backgroundColor: '#95afca'}}> 
+      <Aux>
+      <div style={{backgroundColor: 'white'}}> 
         
+        <Modal show={this.state.show} modalClosed={this.cancel}>
+          {log}
+        </Modal>
+
         <Layout />
         
         {routes}
 
         <div style={{textAlign: 'center', height: '200px', backgroundColor: 'grey'}}>
-            <h2>Footer Section </h2>
+            <h2>Footer Section 
+              <button onClick={this.loginHandler}>
+                Login
+              </button>
+            </h2>
         </div>
 
 
       </div>
+      </Aux>
     );
   }
 }

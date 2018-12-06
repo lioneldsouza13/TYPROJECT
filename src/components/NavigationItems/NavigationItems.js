@@ -1,14 +1,17 @@
 import React from 'react';
 import classes from './NavigationItems.module.css'
 import NavigationItem from './NavigationItem/NavigationItem';
+import { Dropdown } from 'shineout';
+
+
 
 const navigationItems = (props) => (
     <ul className={classes.NavigationItems}>
-        <NavigationItem  exact link="/">Home | </NavigationItem>
-        <NavigationItem link="/signin"> Sign In | </NavigationItem>
-        <NavigationItem link="/display" >Display |</NavigationItem>
-        <NavigationItem link="/signInForm">SignInForm |</NavigationItem>
-        <NavigationItem link="/sell">Sell/Lend Vehicle</NavigationItem>
+        <NavigationItem  exact link="/">Home </NavigationItem>
+        <NavigationItem link="/signin"> Sign In </NavigationItem>
+        <NavigationItem link="/display" >Buy/Rent Vehicle 
+            </NavigationItem>
+        <NavigationItem link="/sell">Sell/Lend Vehicle </NavigationItem>
         
     </ul>
 );

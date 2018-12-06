@@ -4,11 +4,23 @@ import axios from 'axios';
 
 class Cards extends Component {
     state = {
-        display: []
+        display: [],
+        vehicles: []
     }
 
     componentDidMount () {
-        axios.get('http://localhost:3001/fetch-values').then(result => {
+  //      axios.get('http://localhost:3001/fetch-values').then(result => {
+  //          const fetchedValues = [];
+  //          for(let key in result.data){
+  //              fetchedValues.push({
+  //                  ...result.data[key],
+  //                  id: key
+  //              });
+  //          }
+  //          this.setState({display: fetchedValues})
+  //      });
+//
+        axios.get('http://localhost:3001/fetch-allVehicles-details').then(result => {
             const fetchedValues = [];
             for(let key in result.data){
                 fetchedValues.push({
@@ -16,19 +28,27 @@ class Cards extends Component {
                     id: key
                 });
             }
-            this.setState({display: fetchedValues})
+            this.setState({vehicles: fetchedValues})
+            console.log(this.state.vehicles);
         });
-    };
-    
+
+    }
+
+   
     render () {
-        let displayNav = this.state.display.map(dis => (
-            <Card name={dis.User_Name} userid={dis.UserId} key={dis.id}/>
+     //   let displayNav = this.state.display.map(dis => (
+     //       <Card name={dis.User_Name} userid={dis.UserId} key={dis.id}/>
+     //   ));
+
+        let displayVehicle = this.state.vehicles.map(dis => (
+            <Card name={dis.brand} key={dis.id} model={dis.model} 
+            price={dis.price} />
         ));
       
         return (
             
             <div>
-                {displayNav}
+                {displayVehicle}
             </div>
         )
     }

@@ -27,11 +27,10 @@ const input = (props) => {
             break;
         case('date'):
             inputElement = <DatePicker 
-            
-            {...props.elementConfig}
-            placeholder="Select Date"
+            placeholder="Select DOB"
             onChange={props.changed}
             />
+            break;
         case ('select'):
             inputElement = (<select>
 

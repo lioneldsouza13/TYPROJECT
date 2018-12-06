@@ -4,6 +4,9 @@ import classes from './UserData.module.css';
 import {updateObject} from '../../../../src/shared/utility';
 import axios from 'axios';
 import Button from '../../../components/UI/FormComponents/Button';
+import Aux from '../../../hoc/Auxilary';
+import Modal from '../../../components/UI/Modal/Modal';
+import Login from '../../Forms/Login/Login';
 
 class UserData extends Component {
     state = {
@@ -85,7 +88,9 @@ class UserData extends Component {
                 value: ''
             },
         },
-        displayData: []
+        displayData: [],
+        show: false,
+        close: false
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -124,7 +129,20 @@ class UserData extends Component {
 //        
 //    }
 //
-        submitHandler = (event) => {
+
+            loginHandler = (e) => {
+                this.setState({
+                    show: true
+                })
+            }
+
+            cancelHandler = () => {
+                this.setState({
+                    show: false
+                })
+            }
+
+            submitHandler = (event) => {
             event.preventDefault();
            const user = {};
 
@@ -173,13 +191,26 @@ class UserData extends Component {
                         />
             </form>
         );
+
+        let login = null;
+        
+        login = <Login />
     
         return (
+            <Aux>
+
+            <Modal show={this.state.show} modalClosed={this.cancelHandler}>
+                {login}
+            </Modal>
+        
+            
             <div className={classes.UserData}>
+            <button onClick={this.loginHandler}>Login</button>
             <h2 style={{padding:'10px', textAlign:'center'}}>Sign In</h2>    
             {form}
                 
             </div>
+            </Aux>
         );
 
     };
