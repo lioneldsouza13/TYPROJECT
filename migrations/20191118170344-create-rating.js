@@ -8,24 +8,30 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT
       },
-      user_id: {
-          allowNull: false,
-        type: Sequelize.BIGINT
-      },
+
       vehicle_id: {
-          allowNull: false,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
+          references: {
+            model:"vehicle",
+              key:"vehicle_id"
+          }
       },
+        user_id: {
+            type: Sequelize.BIGINT,
+            references:{
+                model:"users",
+                key:"user_id"
+            }
+        },
+
+
       vehicle_name: {
-          allowNull: false,
         type: Sequelize.STRING
       },
       user_name: {
-          allowNull: false,
         type: Sequelize.STRING
       },
       rating_number: {
-          allowNull: false,
         type: Sequelize.BIGINT
       },
       createdAt: {

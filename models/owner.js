@@ -6,7 +6,22 @@ module.exports = (sequelize, DataTypes) => {
           autoIncrement: true,
           primaryKey: true
       },
-      vehicle_id:DataTypes.BIGINT,
+      vehicle_id:{
+        type: DataTypes.BIGINT,
+        references:{
+            model:"vehicle",
+            key:"vehicle_id"
+
+        }
+      },
+      user_id:{
+          type: DataTypes.BIGINT,
+          references:{
+              model:"users",
+              key:"user_id"
+
+          }
+      },
       name: DataTypes.STRING,
       address: DataTypes.STRING,
       pincode: DataTypes.DOUBLE,

@@ -6,7 +6,8 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
+
       },
       vehicle_type: {
         type: Sequelize.STRING
@@ -44,6 +45,9 @@ module.exports = {
       price: {
         type: Sequelize.BIGINT
       },
+        description:{
+          type:Sequelize.STRING
+        },
         status:{
           type:Sequelize.STRING
         },

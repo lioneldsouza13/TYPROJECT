@@ -6,15 +6,26 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true
     },
-    vehicle_id: DataTypes.BIGINT,
+    vehicle_id: {
+        type:DataTypes.BIGINT,
+        references:{
+            model:"vehicle",
+            key:"vehicle_id"
+        }
+    },
     vehicle_name: DataTypes.STRING,
-    user_id: DataTypes.BIGINT,
+   user_id: {
+        type:DataTypes.BIGINT,
+       references: {
+            model:"user",
+           key:"user_id"
+       }
+   },
     user_name: DataTypes.STRING,
     feedback_comment: DataTypes.STRING
-  }, {});
+  }, {underscore:true});
   feedback.associate = function(models) {
-    // feedback.belongsTo(models.master_vehicle,{foreignKey:'vehicle_id'})
-      feedback.belongsTo(models.user,{foreignKey:'user_id'})
+
   };
   return feedback;
 };

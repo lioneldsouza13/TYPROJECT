@@ -4,9 +4,23 @@ module.exports = (sequelize, DataTypes) => {
     client_id:{type:DataTypes.BIGINT,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
     },
-      vehicle_id:DataTypes.BIGINT,
+     vehicle_id:{
+        type:DataTypes.BIGINT,
+         references: {
+            model:"vehicle",
+            key:"vehicle_id"
+         }
+     },
+      user_id:{
+          type: DataTypes.BIGINT,
+          references:{
+              model:"users",
+              key:"user_id"
+
+          }
+      },
     address: DataTypes.STRING,
     name: DataTypes.STRING,
     city: DataTypes.STRING,
@@ -15,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     DOB: DataTypes.DATE,
     documents: DataTypes.BLOB
-  }, {});
+  });
   client.associate = function(models) {
-    // associations can be defined here
+    client.hasOne(models.transaction,{foreignKey:"client_id"})
+
   };
   return client;
 };

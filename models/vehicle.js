@@ -20,9 +20,15 @@ module.exports = (sequelize, DataTypes) => {
       documents: DataTypes.BLOB,
       price: DataTypes.BIGINT,
       status:DataTypes.STRING
-  }, {freezeTableName:true});
+  },{freezeTableName:true});
   vehicle.associate = function(models) {
-    // associations can be defined here
+    vehicle.hasOne(models.client,{foreignKey:'vehicle_id'})
+      vehicle.hasOne(models.owner,{foreignKey:'vehicle_id'})
+      // vehicle.hasOne(models.user,{foreignKey:'vehicle_id'})
+      vehicle.hasMany(models.feedback,{foreignKey:'vehicle_id'})
+      vehicle.hasOne(models.rating,{foreignKey:'vehicle_id'})
+      vehicle.hasOne(models.transaction,{foreignKey:'vehicle_id'})
+
   };
   return vehicle;
 };

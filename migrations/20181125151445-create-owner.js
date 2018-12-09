@@ -9,7 +9,19 @@ module.exports = {
         type: Sequelize.BIGINT
       },
         vehicle_id:{
-            type:Sequelize.BIGINT
+            type:Sequelize.BIGINT,
+            references:{
+                model:"vehicle",
+                key:"vehicle_id"
+            }
+        },
+        user_id:{
+            type: Sequelize.BIGINT,
+            references:{
+                model:"users",
+                key:"user_id"
+
+            }
         },
       name: {
         type: Sequelize.STRING

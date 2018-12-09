@@ -5,11 +5,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true},
-    client_id: DataTypes.BIGINT,
-    vehicle_id: DataTypes.BIGINT,
+   client_id: {
+        type:DataTypes.BIGINT,
+       references:{
+            model:"client",
+           key:"client_id"
+       }
+   },
+   vehicle_id: {
+        type:DataTypes.BIGINT,
+       references: {
+            model:"vehicle",
+           key:"vehicle_id"
+       }
+
+   },
     date: DataTypes.DATE,
     type: DataTypes.STRING
-  }, {});
+  }, {underscore:true});
   transaction.associate = function(models) {
     // associations can be defined here
   };
