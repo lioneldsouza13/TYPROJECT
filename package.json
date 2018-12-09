@@ -4,8 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "data":"node playground/vehicle_models.js",
+    "start-watch": "node server.js",
+    "dev": "(start npm run start-watch && start npm run data) || (npm run start-watch & npm run data)",
+    "start": "npm run dev"
+
+
+
+
   },
   "author": "",
   "license": "ISC",
