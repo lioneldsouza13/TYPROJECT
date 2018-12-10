@@ -74,7 +74,8 @@ app.post('/sign-in',async (req,res)=>{
         let fetchedEmail = req.body.users.email;
         let fetchedPassword = req.body.users.password;
         let storedPassword='';
-        const data=await user.findOne({attributes:['email','password','token'],where:{email:fetchedEmail}}).then((User)=>{
+        let sendData=[];
+        const data=await user.findOne({attributes:['user_id','email','password','token'],where:{email:fetchedEmail}}).then((User)=>{
             if(!User)
             {
                 res.status(403).send('User Does Not Exist')
@@ -86,7 +87,10 @@ app.post('/sign-in',async (req,res)=>{
                 const match= bcrypt.compareSync(fetchedPassword,storedPassword)
                 if(match)
                 {
-                    res.send(User.token)
+                    sendData.push(User.user_id)
+                    sendData.push(User.token)
+
+                    res.send(sendData)
                 }
                 else
                 {
