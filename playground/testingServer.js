@@ -27,12 +27,14 @@ app.post('/password',async (req,res)=>{
         let generateToken='';
         let generatePassword='';
         var jwtDetails={
+            user_id:1,
             email:req.body.email,
-            password: req.body.password
         };
         const saltRounds = 10;
 
-        const tokenCreation=await jwt.sign(jwtDetails, 'secretkey', (err, token) => {
+        const tokenCreation=await jwt.sign(jwtDetails, 'secretkey',{
+            expiresIn: '1h'
+        },(err, token) => {
             if (err) {
                 console.log(err)
             }
@@ -41,21 +43,29 @@ app.post('/password',async (req,res)=>{
         });
 
 
-        var users=req.body;
-        const passwordCreation=await bcrypt.hash(req.body.password, saltRounds).then((result) => {
-            generatePassword=result
-            return result
-        }).catch(e=>res.send(e));
+
+         jwt.verify(generateToken,'secretkey',function(err,token){
+
+             console.log(token.exp)
+                 res.send('worked');
+         })
 
 
-        const data=await user.create({
-            email:req.body.email,
-            password:generatePassword,
-            token:generateToken
+        // var users=req.body;
+        // const passwordCreation=await bcrypt.hash(req.body.password, saltRounds).then((result) => {
+        //     generatePassword=result
+        //     return result
+        // }).catch(e=>res.send(e));
 
-        }).then(result=>{
-            res.send('Data Saved in User Table')
-        }).catch(e=>res.send(e))
+        //
+        // const data=await user.create({
+        //     email:req.body.email,
+        //     password:generatePassword,
+        //     token:generateToken
+        //
+        // }).then(result=>{
+        //     res.send('Data Saved in User Table')
+        // }).catch(e=>res.send(e))
 
 
 

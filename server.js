@@ -23,21 +23,9 @@ app.use(cors());
 app.post('/sign-up',async (req,res)=>{
     try{
         let hashedPassword='';
-        let generateToken='';
-        var users = req.body.user;
-        var jwtDetails={
-            email:users.email,
-            password: users.password
-        };
+        var users = req.body.users;
+
         const saltRounds = 10;
-      //--------- generating token using email and password -------------------------
-        const jwtCreation=await jwt.sign(jwtDetails,'secretkey',(err,token)=>{
-            if(err)
-            {
-                console.log(err)
-            }
-            generateToken=token;
-        });
 
         //------------------------ hashing password ---------------
      const passwordCreation=await bcrypt.hash(req.body.password, saltRounds).then((result) => {
@@ -52,8 +40,7 @@ app.post('/sign-up',async (req,res)=>{
         phone_number:users.phone_number,
         DOB:users.DOB,
         email:users.email,
-        password:hashedPassword,
-        token:generateToken
+        password:hashedPassword
 
     }).then(result=>{
         res.send('Data Saved in User Table')
@@ -74,8 +61,10 @@ app.post('/sign-in',async (req,res)=>{
         let fetchedEmail = req.body.users.email;
         let fetchedPassword = req.body.users.password;
         let storedPassword='';
-        let sendData=[];
-        const data=await user.findOne({attributes:['user_id','email','password','token'],where:{email:fetchedEmail}}).then((User)=>{
+        let generateToken='';
+        let expiresIn='';
+
+        const data=await user.findOne({attributes:['user_id','email','password'],where:{email:fetchedEmail}}).then((User)=>{
             if(!User)
             {
                 res.status(403).send('User Does Not Exist')
@@ -83,14 +72,37 @@ app.post('/sign-in',async (req,res)=>{
             }
             else
             {
+                var jwtDetails={
+                    user_id:User.user_id,
+                    email:User.email
+                };
+                //--------- generating token using email and user_id -------------------------
+                const jwtCreation=jwt.sign(jwtDetails,'secretkey',{
+                expiresIn: '1h'
+            },(err,token)=>{
+                if(err)
+                {
+                    console.log(err)
+                }
+                generateToken=token;
+            });
+
+                const decodedToken= jwt.verify(generateToken,'secretkey',function(err,token){
+                    expiresIn = token.exp;
+                }
+            )
+
                 storedPassword=User.password;
                 const match= bcrypt.compareSync(fetchedPassword,storedPassword)
                 if(match)
                 {
-                    sendData.push(User.user_id)
-                    sendData.push(User.token)
 
-                    res.send(sendData)
+
+                    res.json({data:{
+                        user_id:User.user_id,
+                        token:generateToken,
+                        expiresIn:expiresIn
+                        }})
                 }
                 else
                 {

@@ -10,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     phone_number: DataTypes.BIGINT,
     DOB: DataTypes.DATE,
     email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    token:DataTypes.STRING
+    password: DataTypes.STRING
   }, {underscore:true});
   user.associate = function(models) {
     user.hasOne(models.feedback,{foreignKey:"user_id"})
